@@ -39,9 +39,9 @@ FLUSH PRIVILEGES;
 
 ## Crear usuario y base de datos (con privilegios para una base y conexiones remotas '%')
 ```
-create database lapapa;
-create user lapapa1 identified by password;
-grant all privileges on lapapa1.* to lapapa@'%' identified by 'password';
+create database basededatos;
+create user usuario identified by password;
+grant all privileges on basededatos.* to usuario@'%' identified by 'password';
 ```
 
 ## Instalar PHP
