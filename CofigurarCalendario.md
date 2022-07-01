@@ -47,7 +47,7 @@ Para creacion de eventos en un calendario compartido con una cuenta que no usa p
 > El sistema indica que solo se le agregaran estos permisos cuando el usuario al que le compartimos el calendario ingrese en Gmail al correo que se le envio y acepte pero como es una cuenta de servicio este paso no es necesario
 > Ademas en el campo de permisos solo se mostrara el permiso de menor nivel que es: *Ver solo libre/ocupado*, aunque puedas crear eventos
 
-##### Crear cliente de la API con Laravel
+##### 4 - Crear cliente de la API con Laravel
 
 1. Instalar package de spatie [Github Aqui](https://github.com/spatie/laravel-google-calendar)
 2. En el archivo .env agregar las variables
@@ -57,8 +57,16 @@ GOOGLE_CALENDAR_IMPERSONATE=agendas@organizacion.cl
 GOOGLE_CALENDAR_AUTH_PROFILE=service_account
 ```
 3. Copiar archivo credncial en formato JSON descargado en proyecto-laravel/storage/app/google-calendar/
-4. Configurar el nombre del archivo credncial en /proyecto-laravel/config/google-calendar.php en el array 'service_account'.
-5. Probar el funcionamiento (codigo agregado en el archivo de rutas pero se recomenta crear un contralador)
+4. Configurar el nombre del archivo credencial en /proyecto-laravel/config/google-calendar.php en el array 'service_account'.
+5. Si se realizaron varias pruebas se debe eliminar el cache ya que podria resultar con errores de permisos producidos por credenciales antiguas.
+```bash
+php artisan clear
+php artisan config:clear
+php artisan cache:clear
+php artisan routes:clear
+php artisan view:clear
+```
+6. Probar el funcionamiento (codigo agregado en el archivo de rutas pero se recomenta crear un contralador)
 ```php
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
@@ -78,3 +86,4 @@ Route::get('crear_evento', function () {
 });
 ```
 > Corroborar que se pueda invitar personas con el metodo addAttendee. Si todo funciona bien mostrara el evento recien creado con la instrucción dd($event)
+
