@@ -65,11 +65,11 @@ php artisan cache:clear
 php artisan routes:clear
 php artisan view:clear
 ```
-6. Probar el funcionamiento (codigo agregado en el archivo de rutas pero se recomenta crear un contralador)
+1. Probar el funcionamiento (puede ser ejecutado por tinker)
 ```php
 $agenda = Agenda::create([$datos]);
 $agenda->crearEventoCalendar();
 $agenda->verEventoCalendar();
 ```
-> Corroborar que se pueda invitar personas con el metodo addAttendee. Si todo funciona bien mostrara el evento recien creado con la instrucción dd($event)
+> Corroborar que se pueda invitar personas en el array attendee. Si todo funciona bien mostrara el evento recien creado.
 
