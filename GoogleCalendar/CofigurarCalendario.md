@@ -32,8 +32,8 @@ Para creacion de eventos en un calendario compartido con una cuenta que no usa p
 ##### 2 - Configuracion de Delegar la autoridad de todo el dominio a la cuenta de servicio
 
 1. Sigue los pasos descritos en este [link](https://developers.google.com/identity/protocols/oauth2/service-account#delegatingauthority)
->- Debes usar el Id único que copiaste en el paso anterior**
->- Para agregar permisos de crear eventos en Calendar debes evitar usar el Scope** _.readonly_ , puedes agregar https://www.googleapis.com/auth/calendar
+>- **Debes usar el Id único que copiaste en el paso anterior**
+>- Para agregar permisos de crear eventos en Calendar debes evitar usar el Scope  _.readonly_ , puedes agregar https://www.googleapis.com/auth/calendar
 
 ##### 3 - Crear Calendario en la cuenta que sera encargada de alojar las agendas (diferente a la de administrador)
 
@@ -49,15 +49,14 @@ Para creacion de eventos en un calendario compartido con una cuenta que no usa p
 
 ##### 4 - Crear cliente de la API con Laravel
 
-1. Instalar package de spatie [Github Aqui](https://github.com/spatie/laravel-google-calendar)
-2. En el archivo .env agregar las variables
+1. En el archivo .env agregar las variables
 ```
 GOOGLE_CALENDAR_ID=@agendas@organizacion.cl
 GOOGLE_CALENDAR_IMPERSONATE=agendas@organizacion.cl
 GOOGLE_CALENDAR_AUTH_PROFILE=service_account
 ```
 3. Copiar archivo credncial en formato JSON descargado en proyecto-laravel/storage/app/google-calendar/
-4. Configurar el nombre del archivo credencial en /proyecto-laravel/config/google-calendar.php en el array 'service_account'.
+4. Configurar el nombre del archivo credencial en /proyecto-laravel/config/google.php en el array 'service_account'.
 5. Si se realizaron varias pruebas se debe eliminar el cache ya que podria resultar con errores de permisos producidos por credenciales antiguas.
 ```bash
 php artisan clear
@@ -68,22 +67,9 @@ php artisan view:clear
 ```
 6. Probar el funcionamiento (codigo agregado en el archivo de rutas pero se recomenta crear un contralador)
 ```php
-use Spatie\GoogleCalendar\Event;
-use Carbon\Carbon;
-Route::get('crear_evento', function () {
-    $event = new Event;
-    $event->name = 'Prueba de calendar con dominio';
-    $event->description = 'Event description';
-    $event->startDateTime = Carbon::now();
-    $event->endDateTime = Carbon::now()->addHour();
-    $event->addAttendee([
-        'email' => 'benjamin.olguin@organizacion.cl',
-        'name' => 'Benjamin Olguin',
-        'comment' => 'Prueba',
-    ]);
-    $event->save();
-    dd($event);
-});
+$agenda = Agenda::create([$datos]);
+$agenda->crearEventoCalendar();
+$agenda->verEventoCalendar();
 ```
 > Corroborar que se pueda invitar personas con el metodo addAttendee. Si todo funciona bien mostrara el evento recien creado con la instrucción dd($event)
 
